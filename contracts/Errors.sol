@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+error Unauthorized();
+error Ineligible();
+error AlreadyMinted();
+error InvalidTier();
+error InsufficientXP();

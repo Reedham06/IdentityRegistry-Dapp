@@ -1,0 +1,20 @@
+{
+  "bronze": {
+    "image": "QmaECULt529CMMKPQBEEaxYEqWPzh3VrxoE8Gk2oT3BF1q",
+    "metadata": "QmNpqvFEC6g9JsoQwjzQfDe3sJk6Qsh7KCFtFc8RHMviD7",
+    "imageURL": "https://gateway.pinata.cloud/ipfs/QmaECULt529CMMKPQBEEaxYEqWPzh3VrxoE8Gk2oT3BF1q",
+    "metadataURL": "https://gateway.pinata.cloud/ipfs/QmNpqvFEC6g9JsoQwjzQfDe3sJk6Qsh7KCFtFc8RHMviD7"
+  },
+  "silver": {
+    "image": "QmcyVWdRVY1fNEVWhun6UbXoJMa98y5F9hHaVC8cwVjHPk",
+    "metadata": "QmVPoJr6G8ccoGWPHYDo8c4WKyRdUdUE2ZkbdfKf5FxA2H",
+    "imageURL": "https://gateway.pinata.cloud/ipfs/QmcyVWdRVY1fNEVWhun6UbXoJMa98y5F9hHaVC8cwVjHPk",
+    "metadataURL": "https://gateway.pinata.cloud/ipfs/QmVPoJr6G8ccoGWPHYDo8c4WKyRdUdUE2ZkbdfKf5FxA2H"
+  },
+  "gold": {
+    "image": "QmZu73HaG64u29PvXijKmwKKkCvufdFSB67vGtd2Uf9jCy",
+    "metadata": "QmfFDe7H9gnGmKfrCd5N253FDCvB6QvC8yBq6BCewBcD8s",
+    "imageURL": "https://gateway.pinata.cloud/ipfs/QmZu73HaG64u29PvXijKmwKKkCvufdFSB67vGtd2Uf9jCy",
+    "metadataURL": "https://gateway.pinata.cloud/ipfs/QmfFDe7H9gnGmKfrCd5N253FDCvB6QvC8yBq6BCewBcD8s"
+  }
+}
