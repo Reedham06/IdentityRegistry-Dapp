@@ -13,10 +13,10 @@ export default function Dashboard() {
   const REAL_CONTRACT_ADDRESS = "0x1D13fcC1820f6B1BC725473F2ce9184333211000";
 
   const BADGE_IMAGES = {
-    0: "/badges/no-tier.png", 
+    0: "https://gateway.pinata.cloud/ipfs/QmUNLLsP2mSNo_placeholder_hash", 
     1: "https://gateway.pinata.cloud/ipfs/QmaECULt529CMMKPQBEEaxYEqWPzh3VrxoE8Gk2oT3BF1q", 
     2: "https://gateway.pinata.cloud/ipfs/QmcyVWdRVY1fNEVWhun6UbXoJMa98y5F9hHaVC8cwVjHPk", 
-    3: "https://gateway.pinata.cloud/ipfs/QmZu73HaG64u29PvXijKmwKKkCvufdFSB67vGtd2Uf9jCy"  
+    3: "https://gateway.pinata.cloud/ipfs/QmZu73HaG64u29PvXijKmwKKkCvufdFSB67vGtd2Uf9jCy"
   };
 
   useEffect(() => { setMounted(true); }, []);
@@ -84,7 +84,7 @@ export default function Dashboard() {
         
         {}
         <div className="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-          <h2 className="text-2xl font-bold text-white">Identity Status</h2>
+          <h2 className="text-4xl font-bold text-white">Identity Status</h2>
           <button 
             onClick={handleManualRefresh}
             disabled={isRefreshing}
@@ -143,7 +143,7 @@ export default function Dashboard() {
                <button
                  onClick={() => mintNFT({ args: [tierInfo.metadataURI || ""] })}
                  disabled={memberData.tier === 0 || isMinting}
-                 className={`w-full py-4 rounded-xl font-bold text-lg transition-all shadow-lg ${
+                 className={`w-full py-4 rounded-xl font-bold text-2xl transition-all shadow-lg ${
                    memberData.tier === 0
                      ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed opacity-50'
                      : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-purple-900/40 transform hover:-translate-y-1'
@@ -155,8 +155,8 @@ export default function Dashboard() {
                </button>
              ) : (
                <div className="text-center p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-                  <p className="text-green-400 font-bold text-lg">✅ Identity NFT Owned</p>
-                  <p className="text-zinc-500 text-xs mt-1">You are verified on-chain.</p>
+                  <p className="text-green-400 font-bold text-2xl">✅ Identity NFT Owned</p>
+                  <p className="text-zinc-500 text-lg mt-1">You are verified on-chain.</p>
                </div>
              )}
         </div>
