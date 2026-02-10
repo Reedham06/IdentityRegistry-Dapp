@@ -2,7 +2,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const PINATA_JWT = process.env.PINATA_JWT;
 
@@ -49,7 +49,6 @@ async function main() {
   console.log("🚀 Starting IPFS upload...\n");
   
   try {
-    // Upload images
     console.log("📤 Uploading images to IPFS...");
     const bronzeCID = await uploadFile('./ipfs-assets/images/bronze.png');
     console.log("✅ Bronze image:", bronzeCID);
@@ -62,7 +61,6 @@ async function main() {
     
     console.log("\n📤 Uploading metadata to IPFS...");
     
-    // Create and upload metadata
     const bronzeMetadata = {
       name: "Bronze Identity Badge",
       description: "Entry-level community member badge - You've started your journey!",
@@ -105,7 +103,6 @@ async function main() {
     const goldMetaCID = await uploadJSON(goldMetadata, "gold-metadata.json");
     console.log("✅ Gold metadata:", goldMetaCID);
     
-    // Save to file for easy access
     const cids = {
       bronze: { 
         image: bronzeCID, 
