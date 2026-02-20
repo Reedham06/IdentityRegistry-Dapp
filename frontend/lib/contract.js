@@ -4,7 +4,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const CONTRACT_ADDRESS = "0xE1321c60812850A77d8a72858a8777C20076E5EB";
+export const CONTRACT_ADDRESS = "0x1D13fcC1820f6B1BC725473F2ce9184333211000";
 
 export const TIER_METADATA = {
   0: { name: "No Tier", color: "#ffffff", threshold: 0 },
