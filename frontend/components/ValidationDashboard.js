@@ -18,6 +18,7 @@ export default function ValidationDashboard() {
   useEffect(() => { setMounted(true); }, []);
 
   const fetchQueue = async () => {
+    console.log("Connecting to Supabase at:", process.env.NEXT_PUBLIC_SUPABASE_URL);
     const { data, error } = await supabase.from('submissions').select('*').eq('status', 'pending');
     if (error) console.error("Supabase Error:", error);
     if (data) setDbQueue(data);
