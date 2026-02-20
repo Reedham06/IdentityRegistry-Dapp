@@ -1,15 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-// 1. Supabase Configuration
-// Make sure to replace these with your actual URL and Key if they aren't already set
-const supabaseUrl = 'https://wlhrvywdzdkigekupuvn.supabase.co'; 
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsaHJ2eXdkemRraWdla3VwdXZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2OTcwNTksImV4cCI6MjA4NjI3MzA1OX0.H9pnDFIYvZCUmRFfYzGd5H5U7ep9pw5SjkbLfLLWso4'; 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL; 
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// 2. Contract Address
-export const CONTRACT_ADDRESS = "0xE1321c60812850A77d8a72858a8777C20076E5EB"; // Paste your deployed contract address here
+export const CONTRACT_ADDRESS = "0xE1321c60812850A77d8a72858a8777C20076E5EB";
 
-// 3. TIER METADATA
 export const TIER_METADATA = {
   0: { name: "No Tier", color: "#ffffff", threshold: 0 },
   1: { name: "Bronze", color: "#CD7F32", threshold: 100, metadataURI: "ipfs://QmBronzeURI" },
@@ -17,7 +13,6 @@ export const TIER_METADATA = {
   3: { name: "Gold", color: "#FFD700", threshold: 1000, metadataURI: "ipfs://QmGoldURI" }
 };
 
-// 4. JSON ABI (The Fix for the "in operator" error)
 export const CONTRACT_ABI = [
   {
     "inputs": [],
