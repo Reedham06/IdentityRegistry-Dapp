@@ -1,4 +1,4 @@
-https://identity-registry-website.vercel.app
+https://identity-registry-dapp.vercel.app/
 
 This is the link to my website
 
