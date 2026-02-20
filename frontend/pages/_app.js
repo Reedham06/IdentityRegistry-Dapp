@@ -20,7 +20,7 @@ const { chains, publicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: 'Identity Registry DApp',
-  projectId: '054f2ccdb8953bc75d68efa699e07fb0',
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
   chains
 });
 
