@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   const [dbQueue, setDbQueue] = useState([]);
   const [currentId, setCurrentId] = useState(null);
 
-  const MY_WALLET = "0xE1321c60812850A77d8a72858a8777C20076E5EB".toLowerCase();
+  const MY_WALLET = (process.env.NEXT_PUBLIC_ADMIN_WALLET || "").toLowerCase();
 
   const fetchQueue = async () => {
     const { data, error } = await supabase.from('submissions').select('*').eq('status', 'pending');
