@@ -107,7 +107,7 @@ export default function ValidationDashboard() {
         🚫 Access Denied. <br/>
         {}
         Your Address: {shortenAddress(address)} <br/>
-        It doesn't Match with the Admin Address <br/>
+        It doesn't Match with the Admin Address! <br/>
       </div>
     );
   }
