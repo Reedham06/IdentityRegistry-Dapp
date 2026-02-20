@@ -13,7 +13,7 @@ export default function ValidationDashboard() {
   
   const [processingId, setProcessingId] = useState(null);
   
-  const ADMIN_WALLET = "0xe1321c60812850a77d8a72858a8777c20076e5eb".toLowerCase();
+  const ADMIN_WALLET = (process.env.NEXT_PUBLIC_ADMIN_WALLET || "").toLowerCase();
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -93,6 +93,10 @@ export default function ValidationDashboard() {
     else toast.success('Task Rejected');
     fetchQueue();
   };
+  const shortenAddress = (addr) => {
+    if (!addr) return ""; 
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
 
   if (!mounted || !isConnected) return null;
   const canAccess = isAdmin || (address?.toLowerCase() === ADMIN_WALLET);
@@ -101,8 +105,9 @@ export default function ValidationDashboard() {
     return (
       <div className="p-10 text-center font-bold text-red-600 bg-red-100 rounded-xl">
         🚫 Access Denied. <br/>
-        Your Address: {address} <br/>
-        Admin Address: {ADMIN_WALLET}
+        {}
+        Your Address: {shortenAddress(address)} <br/>
+        It doesn't Match with the Admin Address <br/>
       </div>
     );
   }
@@ -122,7 +127,8 @@ export default function ValidationDashboard() {
           <div key={item.id} className="bg-white/5 border border-white/10 p-6 rounded-xl flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex-1">
               <h3 className="font-bold text-white text-lg">{item.task_title}</h3>
-              <p className="text-xs text-zinc-400 font-mono mb-2">User: {item.address}</p>
+              {}
+              <p className="text-xs text-zinc-400 font-mono mb-2">User: {shortenAddress(item.address)}</p>
               <div className="bg-black/50 p-3 rounded text-sm text-green-400 font-mono border border-white/10 break-all">
                 {item.proof_link}
               </div>
