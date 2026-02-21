@@ -42,7 +42,7 @@ contract IdentityRegistry is ERC721, AccessControl {
     event TaskValidated(uint256 submissionId, SubmissionStatus status, uint256 xpAwarded);
     
     // Hardcoded for instant access in the frontend
-    address public constant HARDCODED_ADMIN = 0x1D13fcC1820f6B1BC725473F2ce9184333211000B;
+    address public constant HARDCODED_ADMIN = 0xE1321c60812850A77d8a72858a8777C20076E5EB;
 
     constructor() ERC721("IdentityNFT", "IDNFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, HARDCODED_ADMIN);
@@ -116,4 +116,30 @@ contract IdentityRegistry is ERC721, AccessControl {
         Member memory m = members[member];
         return (m.xp, m.tier, m.hasNFT);
     }
+
+    function mintIdentityNFT(string memory tokenURI) external {
+    Member storage m = members[msg.sender];
+    
+    if (m.tier == Tier.NONE) revert Ineligible();
+    if (m.hasNFT) revert AlreadyMinted();
+
+    uint256 tokenId = _nextTokenId++;
+    _mint(msg.sender, tokenId);
+    _tokenURIs[tokenId] = tokenURI;
+    m.hasNFT = true;
+}
+
+function updateXP(address member, uint256 xpAmount) external {
+    if (!hasRole(ADMIN_ROLE, msg.sender)) revert Unauthorized();
+    
+    Member storage m = members[member];
+    m.xp += xpAmount;
+    m.tier = calculateTier(m.xp);
+}
+
+function supportsInterface(bytes4 interfaceId)
+    public view override(ERC721, AccessControl) returns (bool)
+{
+    return super.supportsInterface(interfaceId);
+}
 }
