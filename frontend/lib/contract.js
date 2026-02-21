@@ -14,7 +14,6 @@ export const TIER_METADATA = {
 };
 
 export const CONTRACT_ABI = [
-  // ── Read functions ──────────────────────────────────────────────────────────
   {
     "inputs": [],
     "name": "ADMIN_ROLE",
@@ -44,7 +43,6 @@ export const CONTRACT_ABI = [
     "type": "function"
   },
 
-  // ── Write functions ─────────────────────────────────────────────────────────
   {
     "inputs": [
       { "internalType": "address", "name": "member", "type": "address" },
@@ -63,9 +61,6 @@ export const CONTRACT_ABI = [
     "type": "function"
   },
 
-  // ── Custom Errors (add ALL errors from your contract here) ──────────────────
-  // The 0x64a0ae92 signature most likely matches one of these.
-  // Keep all of them — the unused ones are harmless.
   { "inputs": [], "name": "AlreadyMinted",         "type": "error" },
   { "inputs": [], "name": "NFTAlreadyMinted",       "type": "error" },
   { "inputs": [], "name": "NotEligible",            "type": "error" },
@@ -75,7 +70,6 @@ export const CONTRACT_ABI = [
   { "inputs": [], "name": "MintingNotAllowed",      "type": "error" },
   { "inputs": [], "name": "InvalidTier",            "type": "error" },
 
-  // ── Events ──────────────────────────────────────────────────────────────────
   {
     "anonymous": false,
     "inputs": [
