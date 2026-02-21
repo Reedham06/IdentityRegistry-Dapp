@@ -38,7 +38,6 @@ export default function Dashboard() {
       const xp = xpRaw ? Number(xpRaw) : 0;
       let tier = tierRaw ? Number(tierRaw) : 0;
 
-      // Client-side tier fallback if contract returns 0
       if (tier === 0) {
         if (xp >= 1000) tier = 3;
         else if (xp >= 500) tier = 2;
@@ -48,12 +47,10 @@ export default function Dashboard() {
       setMemberData({ xp, tier, hasNFT: !!nftRaw });
     }
   }, [data]);
-
-  // ── Helper: decode known custom errors ─────────────────────────────────────
+  
   const decodeContractError = (error) => {
     const msg = error?.message || error?.shortMessage || "";
 
-    // Map known custom error signatures to human-readable messages
     const knownErrors = {
       "AlreadyMinted":    "You have already minted your Identity NFT.",
       "NFTAlreadyMinted": "You have already minted your Identity NFT.",
@@ -69,7 +66,6 @@ export default function Dashboard() {
       if (msg.includes(name)) return readable;
     }
 
-    // Raw signature fallback
     if (msg.includes("0x64a0ae92")) {
       return "Contract rejected the mint. You may already have an NFT, or your on-chain tier/XP doesn't meet the requirement. Try refreshing your data.";
     }
@@ -77,7 +73,6 @@ export default function Dashboard() {
     return msg.slice(0, 100) || "Unknown contract error.";
   };
 
-  // ── Contract write ──────────────────────────────────────────────────────────
   const {
     write: mintNFT,
     data: mintData,
@@ -112,7 +107,6 @@ export default function Dashboard() {
 
   const isMinting = isWriteLoading || isWaitLoading || isMintGuardLoading;
 
-  // ── Mint handler: always do a fresh read before sending tx ─────────────────
   const handleMint = async () => {
     setIsMintGuardLoading(true);
     toast.loading("Verifying on-chain status...");
@@ -126,7 +120,6 @@ export default function Dashboard() {
         const freshXP     = freshData.xp     !== undefined ? Number(freshData.xp)   : Number(freshData[0]);
         const freshTier   = freshData.tier    !== undefined ? Number(freshData.tier)  : Number(freshData[1]);
 
-        // Re-evaluate tier client-side as fallback
         let effectiveTier = freshTier;
         if (effectiveTier === 0) {
           if (freshXP >= 1000) effectiveTier = 3;
@@ -180,7 +173,7 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="p-8 bg-zinc-900 border border-white/10 rounded-2xl shadow-xl">
 
-        {/* Header */}
+        {}
         <div className="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
           <h2 className="text-4xl font-bold text-white">Identity Status</h2>
           <button
@@ -192,10 +185,10 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Stats grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
 
-          {/* XP + Rank */}
+          {}
           <div className="md:col-span-2 grid grid-cols-2 gap-4">
             <div className="p-6 bg-black/40 rounded-xl border border-white/5 text-center">
               <p className="text-xs text-zinc-500 uppercase font-bold tracking-wider text-blue-400 mb-2">Total XP</p>
@@ -209,7 +202,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Badge image */}
+          {}
           <div className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-xl border border-white/10 relative overflow-hidden group min-h-[180px]">
             <div
               className="absolute inset-0 opacity-20 blur-2xl transition-all duration-700"
@@ -227,7 +220,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Mint / Owned section */}
+        {}
         <div className="mt-8 pt-6 border-t border-white/10">
           {memberData.hasNFT ? (
             <div className="text-center p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
@@ -254,7 +247,7 @@ export default function Dashboard() {
                     : '🔒 Earn 100 XP to Unlock Minting'}
               </button>
 
-              {/* Debug info strip — remove after fixing */}
+              {}
               <p className="text-center text-[10px] text-zinc-600 mt-2">
                 on-chain xp: {memberData.xp} | tier: {memberData.tier} | hasNFT: {String(memberData.hasNFT)}
               </p>
