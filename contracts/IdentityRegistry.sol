@@ -41,8 +41,7 @@ contract IdentityRegistry is ERC721, AccessControl {
     event TaskSubmitted(address indexed member, uint256 submissionId, uint256 taskId);
     event TaskValidated(uint256 submissionId, SubmissionStatus status, uint256 xpAwarded);
     
-    // Hardcoded for instant access in the frontend
-    address public constant HARDCODED_ADMIN = 0xE1321c60812850A77d8a72858a8777C20076E5EB;
+    address public constant HARDCODED_ADMIN = (process.env.NEXT_PUBLIC_ADMIN_WALLET || "").toLowerCase();
 
     constructor() ERC721("IdentityNFT", "IDNFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, HARDCODED_ADMIN);
