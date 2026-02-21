@@ -1,19 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL; 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const CONTRACT_ADDRESS = "0x1D13fcC1820f6B1BC725473F2ce9184333211000";
+export const CONTRACT_ADDRESS = "0x60AaeBEB440EC99eB52f1341b8521C9F7a393209";
 
 export const TIER_METADATA = {
-  0: { name: "No Tier", color: "#ffffff", threshold: 0 },
+  0: { name: "No Tier", color: "#ffffff", threshold: 0, metadataURI: "" },
   1: { name: "Bronze", color: "#CD7F32", threshold: 100, metadataURI: "ipfs://QmBronzeURI" },
   2: { name: "Silver", color: "#C0C0C0", threshold: 500, metadataURI: "ipfs://QmSilverURI" },
   3: { name: "Gold", color: "#FFD700", threshold: 1000, metadataURI: "ipfs://QmGoldURI" }
 };
 
 export const CONTRACT_ABI = [
+  // ── Read functions ──────────────────────────────────────────────────────────
   {
     "inputs": [],
     "name": "ADMIN_ROLE",
@@ -42,6 +43,8 @@ export const CONTRACT_ABI = [
     "stateMutability": "view",
     "type": "function"
   },
+
+  // ── Write functions ─────────────────────────────────────────────────────────
   {
     "inputs": [
       { "internalType": "address", "name": "member", "type": "address" },
@@ -58,5 +61,40 @@ export const CONTRACT_ABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  }
+  },
+
+  // ── Custom Errors (add ALL errors from your contract here) ──────────────────
+  // The 0x64a0ae92 signature most likely matches one of these.
+  // Keep all of them — the unused ones are harmless.
+  { "inputs": [], "name": "AlreadyMinted",         "type": "error" },
+  { "inputs": [], "name": "NFTAlreadyMinted",       "type": "error" },
+  { "inputs": [], "name": "NotEligible",            "type": "error" },
+  { "inputs": [], "name": "TierNotMet",             "type": "error" },
+  { "inputs": [], "name": "InsufficientXP",         "type": "error" },
+  { "inputs": [], "name": "NotRegistered",          "type": "error" },
+  { "inputs": [], "name": "MintingNotAllowed",      "type": "error" },
+  { "inputs": [], "name": "InvalidTier",            "type": "error" },
+
+  // ── Events ──────────────────────────────────────────────────────────────────
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true,  "internalType": "address", "name": "member",    "type": "address" },
+      { "indexed": false, "internalType": "uint256",  "name": "xpAmount",  "type": "uint256" }
+    ],
+    "name": "XPUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true,  "internalType": "address", "name": "member",   "type": "address" },
+      { "indexed": false, "internalType": "uint256",  "name": "tokenId",  "type": "uint256" }
+    ],
+    "name": "NFTMinted",
+    "type": "event"
+  },
+  { "inputs": [], "name": "Ineligible", "type": "error" },
+{ "inputs": [], "name": "AlreadyMinted", "type": "error" },
+{ "inputs": [], "name": "Unauthorized", "type": "error" },
 ];
