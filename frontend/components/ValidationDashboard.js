@@ -62,7 +62,7 @@ export default function ValidationDashboard() {
 
   const { isLoading: isUpdating } = useWaitForTransaction({
   hash: updateData?.hash,
-  timeout: 120_000, // wait up to 2 minutes
+  timeout: 120_000,
   async onSuccess() {
     toast.dismiss();
     toast.success("✅ Blockchain confirmed! Updating database...");
@@ -76,7 +76,6 @@ export default function ValidationDashboard() {
     }
   },
   onError(error) {
-    // Transaction may still have succeeded — check manually
     toast.dismiss();
     toast("⚠️ Timeout — check Force Refresh to verify XP was awarded", { icon: "⚠️" });
     setProcessingId(null);
