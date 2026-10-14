@@ -41,11 +41,14 @@ contract IdentityRegistry is ERC721, AccessControl {
     event TaskSubmitted(address indexed member, uint256 submissionId, uint256 taskId);
     event TaskValidated(uint256 submissionId, SubmissionStatus status, uint256 xpAwarded);
     
-    address public constant HARDCODED_ADMIN = (process.env.NEXT_PUBLIC_ADMIN_WALLET || "").toLowerCase();
+    // Metadata for each tier badge (from ipfs-cids.json)
+    string private constant BRONZE_URI = "ipfs://QmNpqvFEC6g9JsoQwjzQfDe3sJk6Qsh7KCFtFc8RHMviD7";
+    string private constant SILVER_URI = "ipfs://QmVPoJr6G8ccoGWPHYDo8c4WKyRdUdUE2ZkbdfKf5FxA2H";
+    string private constant GOLD_URI = "ipfs://QmfFDe7H9gnGmKfrCd5N253FDCvB6QvC8yBq6BCewBcD8s";
 
     constructor() ERC721("IdentityNFT", "IDNFT") {
-        _grantRole(DEFAULT_ADMIN_ROLE, HARDCODED_ADMIN);
-        _grantRole(ADMIN_ROLE, HARDCODED_ADMIN);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
     }
 
     function submitTask(uint256 taskId, string memory proofUrl) external {
@@ -116,16 +119,28 @@ contract IdentityRegistry is ERC721, AccessControl {
         return (m.xp, m.tier, m.hasNFT);
     }
 
-    function mintIdentityNFT(string memory tokenURI) external {
+    function mintIdentityNFT(string memory uri) external {
     Member storage m = members[msg.sender];
     
     if (m.tier == Tier.NONE) revert Ineligible();
     if (m.hasNFT) revert AlreadyMinted();
+    if (keccak256(bytes(uri)) != keccak256(bytes(_tierURI(m.tier)))) revert InvalidTier();
 
     uint256 tokenId = _nextTokenId++;
     _mint(msg.sender, tokenId);
-    _tokenURIs[tokenId] = tokenURI;
+    _tokenURIs[tokenId] = uri;
     m.hasNFT = true;
+}
+
+function tokenURI(uint256 tokenId) public view override returns (string memory) {
+    _requireOwned(tokenId);
+    return _tokenURIs[tokenId];
+}
+
+function _tierURI(Tier t) internal pure returns (string memory) {
+    if (t == Tier.GOLD) return GOLD_URI;
+    if (t == Tier.SILVER) return SILVER_URI;
+    return BRONZE_URI;
 }
 
 function updateXP(address member, uint256 xpAmount) external {
