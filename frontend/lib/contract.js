@@ -8,9 +8,9 @@ export const CONTRACT_ADDRESS = "0x60AaeBEB440EC99eB52f1341b8521C9F7a393209";
 
 export const TIER_METADATA = {
   0: { name: "No Tier", color: "#ffffff", threshold: 0, metadataURI: "" },
-  1: { name: "Bronze", color: "#CD7F32", threshold: 100, metadataURI: "ipfs://QmBronzeURI" },
-  2: { name: "Silver", color: "#C0C0C0", threshold: 500, metadataURI: "ipfs://QmSilverURI" },
-  3: { name: "Gold", color: "#FFD700", threshold: 1000, metadataURI: "ipfs://QmGoldURI" }
+  1: { name: "Bronze", color: "#CD7F32", threshold: 100, metadataURI: "ipfs://QmNpqvFEC6g9JsoQwjzQfDe3sJk6Qsh7KCFtFc8RHMviD7" },
+  2: { name: "Silver", color: "#C0C0C0", threshold: 500, metadataURI: "ipfs://QmVPoJr6G8ccoGWPHYDo8c4WKyRdUdUE2ZkbdfKf5FxA2H" },
+  3: { name: "Gold", color: "#FFD700", threshold: 1000, metadataURI: "ipfs://QmfFDe7H9gnGmKfrCd5N253FDCvB6QvC8yBq6BCewBcD8s" }
 };
 
 export const CONTRACT_ABI = [
