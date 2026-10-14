@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAccount, useContractRead, useContractWrite, useWaitForTransaction } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI, supabase } from '../lib/contract';
 import { ethers } from 'ethers';
+import { TASKS } from '../lib/tasks';
 import { ScaleIcon } from '@heroicons/react/24/solid';
 import toast from 'react-hot-toast';
 
@@ -11,10 +12,13 @@ export default function ValidationDashboard() {
   const [mounted, setMounted] = useState(false);
   const [dbQueue, setDbQueue] = useState([]);
   const [processingId, setProcessingId] = useState(null);
+  const [lockedIds, setLockedIds] = useState([]);
 
   const ADMIN_WALLET = (process.env.NEXT_PUBLIC_ADMIN_WALLET || "").toLowerCase();
 
   useEffect(() => { setMounted(true); }, []);
+
+  const getTrustedXP = (taskTitle) => TASKS.find((t) => t.title === taskTitle)?.xpReward;
 
   const fetchQueue = async () => {
     const { data, error } = await supabase
@@ -67,17 +71,22 @@ export default function ValidationDashboard() {
     toast.dismiss();
     toast.success("✅ Blockchain confirmed! Updating database...");
     if (processingId) {
-      await supabase
+      const { error } = await supabase
         .from('submissions')
         .update({ status: 'approved' })
         .eq('id', processingId);
+      if (error) {
+        setLockedIds((prev) => [...prev, processingId]);
+        toast.error("XP was sent on-chain but the database update failed. Do NOT approve this again.");
+      }
       setProcessingId(null);
       fetchQueue();
     }
   },
   onError(error) {
     toast.dismiss();
-    toast("⚠️ Timeout — check Force Refresh to verify XP was awarded", { icon: "⚠️" });
+    toast("⚠️ Timeout — check Force Refresh to verify XP was awarded before approving again", { icon: "⚠️" });
+    if (processingId) setLockedIds((prev) => [...prev, processingId]);
     setProcessingId(null);
     fetchQueue();
   }
@@ -86,6 +95,9 @@ export default function ValidationDashboard() {
   const processReward = (submissionId, userAddress, xpAmount) => {
     if (!userAddress || !ethers.utils.isAddress(userAddress)) {
       return toast.error("Invalid wallet address in submission.");
+    }
+    if (!xpAmount) {
+      return toast.error("Unknown task — can't determine the XP reward.");
     }
     setProcessingId(submissionId);
     toast.loading("Check your wallet to confirm...");
@@ -153,7 +165,7 @@ export default function ValidationDashboard() {
               <h3 className="font-bold text-white text-lg">{item.task_title}</h3>
               <p className="text-xs text-zinc-400 font-mono mb-2">
                 User: {shortenAddress(item.address)}
-                <span className="ml-2 text-yellow-400 font-bold">+{item.xp_reward} XP</span>
+                <span className="ml-2 text-yellow-400 font-bold">+{getTrustedXP(item.task_title) ?? '?'} XP</span>
               </p>
               <div className="bg-black/50 p-3 rounded text-sm text-green-400 font-mono border border-white/10 break-all">
                 {item.proof_link}
@@ -162,8 +174,8 @@ export default function ValidationDashboard() {
 
             <div className="flex gap-2 min-w-[200px]">
               <button
-                onClick={() => processReward(item.id, item.address, item.xp_reward)}
-                disabled={processingId !== null}
+                onClick={() => processReward(item.id, item.address, getTrustedXP(item.task_title))}
+                disabled={processingId !== null || lockedIds.includes(item.id)}
                 className={`flex-1 py-2 px-4 rounded-lg font-bold text-white transition-all ${
                   processingId === item.id
                     ? 'bg-yellow-600 cursor-wait animate-pulse'
@@ -172,7 +184,7 @@ export default function ValidationDashboard() {
                       : 'bg-green-600 hover:bg-green-500'
                 }`}
               >
-                {processingId === item.id ? 'Approving...' : 'Approve'}
+                {processingId === item.id ? 'Approving...' : lockedIds.includes(item.id) ? 'Verify XP first' : 'Approve'}
               </button>
 
               <button
